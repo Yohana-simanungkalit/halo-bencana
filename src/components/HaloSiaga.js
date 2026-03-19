@@ -10,7 +10,7 @@ export default function HaloSiaga() {
     //     apiVersion: "v1alpha"
     // });
     const [messages, setMessages] = useState([
-        { role: "bot", text: "Halo! Saya SiagaAI. Saya siap membantu informasi saat bencana." }
+        { role: "bot", text: "Halo! Saya Bot Halo Bencana. Saya siap membantu informasi saat bencana." }
     ]);
 
     const [input, setInput] = useState("");
@@ -22,6 +22,7 @@ export default function HaloSiaga() {
     }, [messages, loading]);
 
     const sendMessage = async (textInput) => {
+        if (loading) return;
         const message = textInput || input;
         if (!message) return;
 
@@ -36,13 +37,14 @@ export default function HaloSiaga() {
             const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
                 headers: {
-                    "Authorization": "Bearer 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", //
+                    "Authorization": "Bearer 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",
                     "Content-Type": "application/json",
-                    "HTTP-Referer": "http://localhost:3000", // WAJIB
-                    "X-Title": "SiagaAI App" // WAJIB
+                    "HTTP-Referer": "http://localhost:3000", 
+                    "X-Title": "SiagaAI App" 
                 },
                 body: JSON.stringify({
                     model: "openrouter/auto",
+                    // model: "meta-llama/llama-3-8b-instruct:free",
                     messages: [
                         {
                             role: "system",
@@ -62,11 +64,9 @@ export default function HaloSiaga() {
 
             const data = await res.json();
 
-            console.log("DEBUG response:", data);
-
             const botText =
                 data?.choices?.[0]?.message?.content ||
-                "Maaf, tidak ada respon dari AI.";
+                "Maaf, tidak ada respon dari Halo Bencana.";
 
             setMessages(prev => [...prev, { role: "bot", text: botText }]);
 
@@ -91,9 +91,9 @@ export default function HaloSiaga() {
     return (
         <div className="container">
 
-              <div className="header">
-                <h2>🚨 SiagaAI</h2>
-                <p>Asisten kesiapsiagaan bencana</p>
+            <div className="header">
+                <h2>Halo Bencana</h2>
+                <p>Asisten Kesiapsiagaan Bencana</p>
             </div>
 
             <QuickActions sendMessage={sendMessage} />
@@ -104,7 +104,11 @@ export default function HaloSiaga() {
                     <Message key={index} role={msg.role} text={msg.text} />
                 ))}
 
-                {loading && <p className="loading">AI sedang mengetik...</p>}
+                {loading && (
+                    <div className="typing">
+                        <span></span><span></span><span></span>
+                    </div>
+                )}
 
             </div>
 
@@ -114,10 +118,12 @@ export default function HaloSiaga() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     placeholder="Tanya tentang bencana..."
+                    onKeyDown={handleKeyDown}
+                    disabled={loading}
                 />
 
-                <button onClick={() => sendMessage()}>
-                    Kirim
+                <button onClick={() => sendMessage()} disabled={loading}>
+                    {loading ? "Mengetik..." : "Kirim"}
                 </button>
 
             </div>

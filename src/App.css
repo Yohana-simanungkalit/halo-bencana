@@ -1,34 +1,46 @@
+/* ===== BODY ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   background: #f4f6f9;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
 }
 
+/* ===== CONTAINER ===== */
 .container {
   max-width: 600px;
   margin: auto;
-  height: 100vh;
+  height: 100dvh; /* 🔥 FIX MOBILE */
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  background: #f4f6f9;
 }
 
+/* ===== HEADER ===== */
 .header {
-  background: #2563eb;
+  background: #0082be;
   color: white;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
   border-radius: 0 0 20px 20px;
 }
 
+/* ===== CHAT ===== */
 .chat-box {
   flex: 1;
   overflow-y: auto;
   padding: 15px;
+  padding-bottom: 80px; /* 🔥 supaya tidak ketutup input */
 }
 
+/* ===== MESSAGE ===== */
 .msg-row {
   display: flex;
-  margin-bottom: 10px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .msg-row.user {
@@ -40,27 +52,60 @@ body {
 }
 
 .avatar {
-  font-size: 20px;
-  margin: 5px;
+  font-size: 18px;
+  margin: 0 6px;
 }
 
 .msg-bubble {
+  position: relative;
   max-width: 70%;
-  padding: 10px 14px;
-  border-radius: 15px;
-  background: #e5e7eb;
+  padding: 12px 16px;
+  border-radius: 18px;
+  line-height: 1.5;
+  white-space: pre-line;
 }
 
+/* USER */
 .msg-row.user .msg-bubble {
-  background: #2563eb;
+  background: linear-gradient(135deg, #2c81ac, #036394);
   color: white;
+  border-bottom-right-radius: 5px;
 }
 
+/* BOT */
+.msg-row.bot .msg-bubble {
+  background: #e4e4e4;
+  color: #111;
+  border-bottom-left-radius: 5px;
+}
+
+/* TAIL */
+.msg-row.user .msg-bubble::after {
+  content: "";
+  position: absolute;
+  right: -6px;
+  bottom: 0;
+  border-left: 10px solid #036394;
+  border-top: 10px solid transparent;
+}
+
+.msg-row.bot .msg-bubble::after {
+  content: "";
+  position: absolute;
+  left: -6px;
+  bottom: 0;
+  border-right: 10px solid #e4e4e4;
+  border-top: 10px solid transparent;
+}
+
+/* ===== INPUT ===== */
 .input-area {
   display: flex;
   padding: 10px;
   background: white;
-  border-top: 1px solid #ddd;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
 }
 
 .input-area input {
@@ -74,32 +119,116 @@ body {
   margin-left: 10px;
   padding: 10px 15px;
   border: none;
-  background: #2563eb;
+  background: #2d8bb6;
   color: white;
   border-radius: 10px;
   cursor: pointer;
+  transition: 0.2s;
+}
+
+.input-area button:hover {
+  background: #036394;
 }
 
 .input-area button:disabled {
-  background: gray;
+  background: #94a3b8;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
+/* ===== QUICK ACTION ===== */
 .quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.quick-btn {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quick-btn:hover {
+  background: #caefff;
+  transform: translateY(-2px);
+}
+
+.quick-btn:active {
+  transform: scale(0.95);
+}
+
+/* ===== TYPING ===== */
+.typing {
+  display: flex;
   gap: 5px;
   padding: 10px;
 }
 
-.quick-actions button {
-  background: #e0f2fe;
-  border: none;
-  padding: 8px 10px;
-  border-radius: 10px;
-  cursor: pointer;
+.typing span {
+  width: 8px;
+  height: 8px;
+  background: gray;
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
 }
 
-.typing {
-  font-style: italic;
-  color: gray;
+.typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.3; }
+  40% { opacity: 1; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  .container {
+    max-width: 100%;
+    height: 100dvh;
+    border-radius: 0;
+  }
+
+  .msg-bubble {
+    max-width: 85%;
+    font-size: 14px;
+  }
+
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .input-area {
+    position: fixed; /* 🔥 FIX INPUT HILANG */
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
 }
