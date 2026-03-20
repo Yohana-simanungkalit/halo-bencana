@@ -1,4 +1,3 @@
-/* ===== BODY ===== */
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
@@ -7,18 +6,16 @@ body {
   overflow: hidden;
 }
 
-/* ===== CONTAINER ===== */
 .container {
   max-width: 600px;
   margin: auto;
-  height: 100dvh; /* 🔥 FIX MOBILE */
+  height: 100dvh; 
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
   background: #f4f6f9;
 }
 
-/* ===== HEADER ===== */
 .header {
   background: #0082be;
   color: white;
@@ -27,15 +24,13 @@ body {
   border-radius: 0 0 20px 20px;
 }
 
-/* ===== CHAT ===== */
 .chat-box {
   flex: 1;
   overflow-y: auto;
   padding: 15px;
-  padding-bottom: 80px; /* 🔥 supaya tidak ketutup input */
+  padding-bottom: 80px; 
 }
 
-/* ===== MESSAGE ===== */
 .msg-row {
   display: flex;
   align-items: flex-end;
@@ -65,21 +60,19 @@ body {
   white-space: pre-line;
 }
 
-/* USER */
 .msg-row.user .msg-bubble {
   background: linear-gradient(135deg, #2c81ac, #036394);
   color: white;
   border-bottom-right-radius: 5px;
 }
 
-/* BOT */
 .msg-row.bot .msg-bubble {
   background: #e4e4e4;
   color: #111;
   border-bottom-left-radius: 5px;
 }
 
-/* TAIL */
+
 .msg-row.user .msg-bubble::after {
   content: "";
   position: absolute;
@@ -98,7 +91,7 @@ body {
   border-top: 10px solid transparent;
 }
 
-/* ===== INPUT ===== */
+
 .input-area {
   display: flex;
   padding: 10px;
@@ -136,9 +129,16 @@ body {
   opacity: 0.7;
 }
 
-/* ===== QUICK ACTION ===== */
+
 .quick-actions {
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  padding: 5px;
+}
+
+.map-actions {
+  display: flex;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
   padding: 10px;
@@ -166,7 +166,28 @@ body {
   transform: scale(0.95);
 }
 
-/* ===== TYPING ===== */
+.map-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #a9ffa1;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.map-btn:hover {
+  background: #86ff82;
+  transform: translateY(-2px);
+}
+
+.map-btn:active {
+  transform: scale(0.95);
+}
+
+
 .typing {
   display: flex;
   gap: 5px;
@@ -189,7 +210,7 @@ body {
   animation-delay: 0.4s;
 }
 
-/* ===== ANIMATION ===== */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -206,7 +227,7 @@ body {
   40% { opacity: 1; }
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 768px) {
 
   .container {
@@ -225,10 +246,86 @@ body {
   }
 
   .input-area {
-    position: fixed; /* 🔥 FIX INPUT HILANG */
+    position: fixed; 
     bottom: 0;
     left: 0;
     right: 0;
   }
 
+}
+
+.map-container {
+  position: relative;
+}
+
+.map-btn {
+  margin: 5px 5px 0px 5px;
+}
+
+.map-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+
+  z-index: 999; 
+}
+
+.map-popup {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  text-align: center;
+  width: 50%;
+
+  z-index: 1000;
+}
+
+.close-btn {
+  position: absolute;
+  top: 35px;
+  right: 130px;
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #666;
+}
+
+
+.close-map-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: white;
+  cursor: pointer;
+  font-size: 16px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.close-map-btn:hover {
+  background: #f1f5f9;
+}
+
+.map-popup button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 10px;
+  background: #0284c7;
+  color: white;
+  cursor: pointer;
 }
