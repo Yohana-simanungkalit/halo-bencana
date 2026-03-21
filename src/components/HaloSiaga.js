@@ -56,7 +56,7 @@ export default function HaloSiaga() {
             const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
                 method: "POST",
                 headers: {
-                    "Authorization": "Bearer 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",
+                    "Authorization": `Bearer ${process.env.REACT_APP_API_KEY}`,
                     "Content-Type": "application/json",
                     "HTTP-Referer": "http://localhost:3000",
                     "X-Title": "Halo Siaga App"
